@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Dynamic Graph with Timeline</title>
+  <script src="./ogma.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+  <link href="./fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.0/papaparse.min.js"></script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script type="text/javascript" src="http://code.iamkate.com/javascript/colour-handling-and-processing/Colour.js">
+  </script>
+  <script src="./timefilter.js"></script>
+  <style>
+    .zoom {
+      cursor: move;
+      fill: none;
+      pointer-events: all;
+    }
+
+    circle {
+      fill: #FF7700;
+      fill-opacity: 1;
+    }
+
+    .axis {
+      stroke-width: 0.5px;
+      stroke: #888;
+      font: 10px avenir next, sans-serif;
+    }
+
+    .axis>path {
+      stroke: #888;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="margin-left: 20px;margin-top: 20px;">
+    <div class="page-header">
+      <h2>Visualizzazione temporale di una rete criminale</h2>
+    </div>
+    <div id="graph-container"></div>
+    <div class="col-sm-2">
+      <div class="list-group">
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading" id="filters">Edges</h4>
+          <input type="checkbox" id="group-edges" checked name="group-edges">
+          <label for="group-edges">Raggruppa</label>
+        </div>
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Doppio Click</h4>
+          <p class="list-group-item-text">Seleziona il nodo e visualizza adiacenti</p>
+        </div>
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Singolo Click</h4>
+          <p class="list-group-item-text">Seleziona il nodo e visualizza adiacenti</p>
+        </div>
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Scroll su Intercettazioni</h4>
+          <p class="list-group-item-text">Zoom temporale</p>
+        </div>
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">CTRL+Scroll su Intercettazioni</h4>
+          <p class="list-group-item-text">Aumenta il Timing Range</p>
+        </div>
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Resize su asse temporale</h4>
+          <p class="list-group-item-text">Zoom temporale</p>
+        </div>
+      </div>
+      </form>
+    </div>
+    <div class="col-sm-7">
+    </div>
+    <div class="col-sm-3">
+      <div class="list-group">
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">Legenda Colori</h4>
+          <p class="list-group-item-text">I colori sono generati in modo dinamico secondo la seguente formula:</p>
+          <p class="list-group-item-text">rgb(<br>
+            &ensp;(<b>outEdges</b> + 60) * 255 / 100,<br>
+            &ensp;<b>220</b>,<br>
+            &ensp;(<b>inEdges</b> + 60) * 255 / 100,<br>
+            )</p>
+        </div>
+      </div>
+    </div>
+    <div id="timeline"></div>
+    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript"></script>
+</body> 
+</html>

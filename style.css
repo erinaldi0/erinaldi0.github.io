@@ -1,0 +1,107 @@
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font: 14px/20px 'Open Sans', Arial, sans-serif;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+[type="checkbox"]:checked,
+[type="checkbox"]:not(:checked) {
+    position: absolute;
+    left: -9999px;
+}
+[type="checkbox"]:checked + label,
+[type="checkbox"]:not(:checked) + label {
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    line-height: 20px;
+    display: inline-block;
+}
+
+[type="checkbox"]:checked + label:before,
+[type="checkbox"]:not(:checked) + label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #ddd;
+    background: #ddd;
+}
+[type="checkbox"]:checked + label:after,
+[type="checkbox"]:not(:checked) + label:after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #000a69;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+[type="checkbox"]:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+[type="checkbox"]:checked + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+#graph-container { top: 0; bottom: 0; left: 0; right: 0; position: absolute; margin: 0; overflow: hidden; }
+
+#ports {
+  width: 200px;
+  display: block;
+  padding-bottom: 20px;
+}
+
+#ports label {
+  display: inline-block;
+  width: 40%;
+}
+
+#timeline {
+  bottom: 0;
+  width: 100%;
+}
+
+
+#time-filter {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 100%;
+}
+
+#time-filter svg {
+  float: right;
+  right: 0;
+}
+
+#time-filter .bar {
+  fill: steelblue;
+}
+
+#time-filter .selected {
+  fill: red;
+}
+
+.handle.handle--e,
+.handle.handle--w {
+  fill: #ffffff;
+  stroke: #000000;
+  stroke-width: 0.3;
+}
