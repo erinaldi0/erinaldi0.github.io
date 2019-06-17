@@ -278,6 +278,8 @@ TimeFilter.prototype.init = function init() {
     }
   }
 
+  brush.extent([0,0])
+
 };
 
 TimeFilter.prototype.bucketCreator = function bucketCreator() {

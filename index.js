@@ -77,6 +77,19 @@ var CALL_TO = 'call_to';
 
 var ANIMATION_DURATION = 150;
 
+var MIN_GRADE_VALUE = Infinity
+var MAX_GRADE_VALUE = -Infinity
+
+function normalize(x, minVal, maxVal){
+  return (x-minVal)/(maxVal-minVal)
+}
+
+function hlsNormalizedColor(value){
+  var h;
+    h = (1.0 - normalize(value,MIN_GRADE_VALUE,MAX_GRADE_VALUE)) * 240;
+    return new HSLColour(h,100,50).getCSSHexadecimalRGB();
+}
+
 var appState = {
   edgeGrouping: undefined,
   selectedPorts: {},
@@ -123,6 +136,7 @@ function initTransformations() {
   // Edge grouping policy:
   // group all edges between
   transformations.edgeGrouping = ogma.transformations.addEdgeGrouping({
+    separateEdgesByDirection: true,
     selector: function (edge) {
       return !edge.isExcluded() && edge.getData('type') === CALL_TO;
     },
@@ -149,9 +163,9 @@ function initTransformations() {
 
 function layout() {
   ogma.layouts.force({
-    charge: 10,
-    radiusRatio: 2,
-    gravity:0.2,
+    //charge: 10,
+    //radiusRatio: 2,
+    //gravity:0.2,
     onEnd: () =>
       ogma.view.locateGraph({
         duration: 700,
@@ -181,16 +195,14 @@ function addStyles() {
       return a + (b.getData("group_size") > 0 ? b.getData("group_size") : 1)
     }, 0) || 1;
 
-    var baseValue = 100;
-    var color = new RGBColour(
-      0,//(outSize + baseValue) * 255 / 100,
-      baseValue + ((inSize + outSize) * 30) / 100,
-      0
-    ).getCSSHexadecimalRGB();
+    var value = Math.sqrt(inSize + outSize);
+
+    MIN_GRADE_VALUE = MIN_GRADE_VALUE > value ? value  : MIN_GRADE_VALUE
+    MAX_GRADE_VALUE = MAX_GRADE_VALUE < value ? value  : MAX_GRADE_VALUE
 
     var toReturn = {
-      color,
-      radius: 5 + Math.sqrt(inSize + outSize),
+      color: hlsNormalizedColor(value),
+      radius: 5 + value,
       /*icon: {
         font: 'FontAwesome',
         content: '\uF007',
@@ -214,7 +226,7 @@ function addStyles() {
     }
     return toReturn;
   });
-
+  
   ogma.styles.addEdgeRule({
     color: (function (edge) {
       return edge.getData('type') === CALL_TO ? '#404050' : '#405040';
