@@ -121,7 +121,6 @@ function initTransformations() {
   });
 
   // Edge grouping policy:
-  //
   // group all edges between
   transformations.edgeGrouping = ogma.transformations.addEdgeGrouping({
     selector: function (edge) {
@@ -182,22 +181,22 @@ function addStyles() {
       return a + (b.getData("group_size") > 0 ? b.getData("group_size") : 1)
     }, 0) || 1;
 
-    var baseValue = 60;
+    var baseValue = 100;
     var color = new RGBColour(
-      (outSize + baseValue) * 255 / 100,
-      220,
-      (inSize + baseValue) * 255 / 100,
+      0,//(outSize + baseValue) * 255 / 100,
+      baseValue + ((inSize + outSize) * 30) / 100,
+      0
     ).getCSSHexadecimalRGB();
 
     var toReturn = {
       color,
       radius: 5 + Math.sqrt(inSize + outSize),
-      icon: {
+      /*icon: {
         font: 'FontAwesome',
         content: '\uF007',
         color: '#ffffff',
         scale: 0.4
-      },
+      },*/
       text: {
         content: "ID: " + node.getId()
       },
@@ -221,9 +220,17 @@ function addStyles() {
       return edge.getData('type') === CALL_TO ? '#404050' : '#405040';
     }),
     width: function (edge) {
-      return 2 + Math.sqrt(edge.getData('group_size'));
+      var size = Math.sqrt(edge.getData('group_size'));
+      if (size > 5)
+        size = 5
+      return size;
     },
-    shape: 'arrow',
+    shape: {
+      type: "line",
+      style: "plain",
+      head: "short-arrow",
+      tail: null
+    },
     text: {
       content: function (edge) {
         if (edge.getData('type') === CALL_TO) {
